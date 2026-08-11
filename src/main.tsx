@@ -76,11 +76,9 @@ createRoot(document.getElementById("root")!).render(
         <WhatsAppIntegrationProvider>
           <RouterProvider router={router} />
         </WhatsAppIntegrationProvider>
-      </TickProvider>TickProvider>    </QueryClientProvider>QueryClientProvider>
+      </TickProvider>TickProvider>
+    </QueryClientProvider>QueryClientProvider>
   </StrictMode>StrictMode>,
-  )
+      )
 })();
-      </TickProvider>
-    </QueryClientProvider>
-  </StrictMode>,
 );
