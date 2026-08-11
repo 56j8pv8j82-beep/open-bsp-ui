@@ -67,8 +67,8 @@ function detectLanguage(): Language {
 }
 
 const initialLang = detectLanguage();
+(async () => {
 await loadTranslations(initialLang);
-
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
@@ -76,6 +76,10 @@ createRoot(document.getElementById("root")!).render(
         <WhatsAppIntegrationProvider>
           <RouterProvider router={router} />
         </WhatsAppIntegrationProvider>
+      </TickProvider>TickProvider>    </QueryClientProvider>QueryClientProvider>
+  </StrictMode>StrictMode>,
+  )
+})();
       </TickProvider>
     </QueryClientProvider>
   </StrictMode>,
