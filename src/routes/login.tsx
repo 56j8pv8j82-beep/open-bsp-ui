@@ -6,6 +6,12 @@ import { GoogleOutlined, GithubOutlined } from "@ant-design/icons";
 
 type OAuthProvider = "google" | "github";
 
+// Temporarily disabled: Google/GitHub OAuth providers are not yet configured
+// in the Supabase project (clicking them returns "provider is not enabled").
+// Flip this back to `true` once the providers are set up in the Supabase
+// dashboard (Authentication > Providers) and redirect URLs are whitelisted.
+const SOCIAL_LOGIN_ENABLED = false;
+
 export const Route = createFileRoute("/login")({
   validateSearch: (search): { redirect?: string; email?: string } => ({
     redirect: (search.redirect as string) || undefined,
@@ -18,11 +24,13 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
-  const { redirect, email: showEmail } = Route.useSearch();
+  const { redirect } = Route.useSearch();
 
   const { translate: t } = useTranslation();
 
   async function handleLogInWithOauth(provider: OAuthProvider) {
+    if (!SOCIAL_LOGIN_ENABLED) return;
+
     await supabase.auth.signInWithOAuth({
       provider,
       options: {
@@ -54,30 +62,29 @@ function Login() {
       </div>
 
       <div className="flex flex-col gap-3 w-[250px]">
-        <button
-          type="button"
-          className="primary bg-blue-500 hover:bg-blue-400 text-white w-full border-none"
-          onClick={() => handleLogInWithOauth("google")}
-        >
-          <GoogleOutlined /> {t("Continuar con Google")}
-        </button>
+        {SOCIAL_LOGIN_ENABLED && (
+          <>
+            <button
+              type="button"
+              className="primary bg-blue-500 hover:bg-blue-400 text-white w-full border-none"
+              onClick={() => handleLogInWithOauth("google")}
+            >
+              <GoogleOutlined /> {t("Continuar con Google")}
+            </button>
 
-        <button
-          type="button"
-          className="primary bg-gray-900 hover:bg-gray-800 text-white w-full border-none"
-          onClick={() => handleLogInWithOauth("github")}
-        >
-          <GithubOutlined /> {t("Continuar con GitHub")}
-        </button>
+            <button
+              type="button"
+              className="primary bg-gray-900 hover:bg-gray-800 text-white w-full border-none"
+              onClick={() => handleLogInWithOauth("github")}
+            >
+              <GithubOutlined /> {t("Continuar con GitHub")}
+            </button>
 
-        <div
-          className={`border-b border-border w-full ${showEmail ? "" : "hidden"}`}
-        />
+            <div className="border-b border-border w-full" />
+          </>
+        )}
 
-        <form
-          onSubmit={handleLogInWithEmail}
-          className={`login-form ${showEmail ? "" : "hidden"}`}
-        >
+        <form onSubmit={handleLogInWithEmail} className="login-form">
           <label>
             <div className="label">{t("Correo electrónico")}</div>
             <input
