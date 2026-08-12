@@ -31,7 +31,7 @@ window.addEventListener("vite:preloadError", (event) => {
   const KEY = "chunk-reload-at";
   const last = Number(sessionStorage.getItem(KEY) || 0);
   if (Date.now() - last < 10_000) return; // let the error surface
-
+  
   sessionStorage.setItem(KEY, String(Date.now()));
   event.preventDefault();
   window.location.reload();
@@ -62,22 +62,26 @@ function detectLanguage(): Language {
   } catch {
     /* ignore */
   }
-
+  
   return detectDefaultLanguage();
 }
 
-const initialLang = detectLanguage();
-(async () => {
-await loadTranslations(initialLang);
-createRoot(document.getElementById("root")!).render(
-  <StrictMode>
-    <QueryClientProvider client={queryClient}>
-      <TickProvider>
-        <WhatsAppIntegrationProvider>
-          <RouterProvider router={router} />
-        </WhatsAppIntegrationProvider>
-      </TickProvider>TickProvider>
-    </QueryClientProvider>QueryClientProvider>
-  </StrictMode>StrictMode>,
-      )
-})();
+async function main() {
+  const initialLang = detectLanguage();
+  await loadTranslations(initialLang);
+  
+  createRoot(document.getElementById("root")!).render(
+    <StrictMode><QueryClientProvider client={queryClient}>
+<TickProvider>
+<WhatsAppIntegrationProvider>
+<RouterProvider router={router} />
+</WhatsAppIntegrationProvider>
+</TickProvider>
+</QueryClientProvider>
+</StrictMode>,
+  );
+}
+
+main().catch((err) => {
+  console.error("Failed to bootstrap app:", err);
+});
