@@ -1,0 +1,89 @@
+name: AgendaVoz
+options:
+  bundleIdPrefix: com.example
+  deploymentTarget:
+    iOS: "17.0"
+  createIntermediateGroups: true
+  developmentLanguage: pt-BR
+settings:
+  base:
+    SWIFT_VERSION: "5.9"
+    IPHONEOS_DEPLOYMENT_TARGET: "17.0"
+    ENABLE_USER_SCRIPT_SANDBOXING: NO
+packages:
+  GoogleSignIn:
+    url: https://github.com/google/GoogleSignIn-iOS
+    from: "7.1.0"
+targets:
+  AgendaVoz:
+    type: application
+    platform: iOS
+    sources:
+      - path: AgendaVoz
+    info:
+      path: AgendaVoz/Info.plist
+      properties:
+        CFBundleDisplayName: Agenda Voz
+        CFBundleShortVersionString: "1.0"
+        CFBundleVersion: "1"
+        UILaunchScreen:
+          UIColorName: AccentColor
+        UISupportedInterfaceOrientations:
+          - UIInterfaceOrientationPortrait
+        UIRequiresFullScreen: false
+        ITSAppUsesNonExemptEncryption: false
+        NSMicrophoneUsageDescription: >-
+          O Agenda Voz precisa acessar o microfone para capturar seu comando de voz
+          e criar compromissos no Google Agenda.
+        NSSpeechRecognitionUsageDescription: >-
+          O Agenda Voz usa reconhecimento de fala para transformar sua voz em
+          texto e interpretar o compromisso que você quer criar. O áudio não é
+          enviado para servidores de terceiros do aplicativo.
+        NSCalendarsUsageDescription: >-
+          Opcionalmente, o Agenda Voz pode usar o calendário local do iPhone
+          como fallback quando o Google Agenda não estiver conectado.
+        CFBundleLocalizations:
+          - pt-BR
+          - en
+        CFBundleURLTypes:
+          - CFBundleTypeRole: Editor
+            CFBundleURLSchemes:
+              - $(GOOGLE_REVERSED_CLIENT_ID)
+        GIDClientID: $(GOOGLE_CLIENT_ID)
+        NSAppTransportSecurity:
+          NSAllowsArbitraryLoads: false
+        UIApplicationSceneManifest:
+          UIApplicationSupportsMultipleScenes: false
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.example.AgendaVoz
+        TARGETED_DEVICE_FAMILY: "1"
+        SUPPORTS_MACCATALYST: NO
+        SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD: NO
+        GENERATE_INFOPLIST_FILE: NO
+        CODE_SIGN_STYLE: Automatic
+        DEVELOPMENT_TEAM: ""
+        SWIFT_EMIT_LOC_STRINGS: YES
+        ENABLE_PREVIEWS: YES
+        DEVELOPMENT_ASSET_PATHS: "\"AgendaVoz/Preview Content\""
+        # Substitua no arquivo .xcconfig ou via variáveis de ambiente
+        GOOGLE_CLIENT_ID: SUBSTITUIR.apps.googleusercontent.com
+        GOOGLE_REVERSED_CLIENT_ID: com.googleusercontent.apps.SUBSTITUIR
+    dependencies:
+      - package: GoogleSignIn
+        product: GoogleSignIn
+      - package: GoogleSignIn
+        product: GoogleSignInSwift
+
+  AgendaVozTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - path: AgendaVozTests
+    dependencies:
+      - target: AgendaVoz
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.example.AgendaVozTests
+        BUNDLE_LOADER: "$(TEST_HOST)"
+        TEST_HOST: "$(BUILT_PRODUCTS_DIR)/AgendaVoz.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/AgendaVoz"

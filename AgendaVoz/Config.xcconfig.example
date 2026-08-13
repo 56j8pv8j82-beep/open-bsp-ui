@@ -1,0 +1,13 @@
+// Copie este arquivo para Config.xcconfig e preencha com os valores do seu
+// projeto no Google Cloud Console. NÃO faça commit do Config.xcconfig.
+//
+// Onde obter os valores:
+//   1. Google Cloud Console → APIs & Services → Credentials
+//   2. Crie um OAuth 2.0 Client ID → tipo "iOS"
+//   3. GOOGLE_CLIENT_ID = "<algo>.apps.googleusercontent.com"
+//   4. GOOGLE_REVERSED_CLIENT_ID = inverso do client id acima
+//      (ex.: 1234-abc.apps.googleusercontent.com →
+//       com.googleusercontent.apps.1234-abc)
+
+GOOGLE_CLIENT_ID = SEU_CLIENT_ID.apps.googleusercontent.com
+GOOGLE_REVERSED_CLIENT_ID = com.googleusercontent.apps.SEU_CLIENT_ID
