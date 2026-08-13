@@ -91,9 +91,11 @@ final class SpeechRecognitionService: NSObject, ObservableObject {
         }
         stopInternal()
 
-        // Configura sessão de áudio.
+        // Configura sessão de áudio. `.duckOthers` só é válido com
+        // .playAndRecord/.playback/.multiRoute — combiná-lo com .record
+        // lança em runtime, então mantemos apenas .record.
         let session = AVAudioSession.sharedInstance()
-        try session.setCategory(.record, mode: .measurement, options: [.duckOthers])
+        try session.setCategory(.record, mode: .measurement, options: [])
         try session.setActive(true, options: .notifyOthersOnDeactivation)
 
         let request = SFSpeechAudioBufferRecognitionRequest()
